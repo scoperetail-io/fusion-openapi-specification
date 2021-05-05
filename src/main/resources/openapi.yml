@@ -1,0 +1,289 @@
+swagger: "2.0"
+info:
+  description: "Order API"
+  version: "1.0.0"
+  title: "Order API"
+  termsOfService: "https://www.scoperetail.com/terms.html"
+  contact:
+    email: "info@scoperetail.com"
+  license:
+    name: "Terms"
+    url: "https://www.scoperetail.com/terms.html"
+host: "www.scoperetail.com"
+basePath: "/fusion/v1"
+tags:
+- name: "order"
+  description: "Everything about your orders"
+  externalDocs:
+    description: "Find out more"
+    url: "http://www.scoperetail.com"
+schemes:
+- "https"
+- "http"
+paths:
+  /orders:
+    post:
+      tags:
+      - "order"
+      summary: "Process OrderDropEvent"
+      description: ""
+      operationId: "OrderDropEvent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "orderDropEventRequest"
+        in: "body"
+        description: "OrderDropEvent Request JSON payload"
+        required: true
+        schema:
+          $ref: "#/definitions/OrderDropEvent"
+      responses:
+        "401":
+          description: "Unauthorized"        
+        "400":
+          description: "Bad Request"
+        "422":
+          description: "Unprocessable Entity"
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "500":
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/ApiResponseError"            
+      security:
+      - fusion_auth:
+        - "write:orders"
+
+securityDefinitions:
+  fusion_auth:
+    type: "oauth2"
+    authorizationUrl: "http://auth.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:orders: "process new orders"
+
+definitions:
+  OrderDropEvent:
+    type: "object"
+    properties:
+      RoutingInfo:
+        $ref: "#/definitions/RoutingInfo"
+      Order:
+        $ref: "#/definitions/Order"
+
+  RoutingInfo:
+    type: "object"
+    properties:
+      SourceNode:
+        $ref: "#/definitions/SourceNode"
+      DestinationNode:
+        $ref: "#/definitions/DestinationNode"
+        
+  SourceNode:
+    type: "object"
+    properties:
+      location:
+        $ref: "#/definitions/Country" 
+      nodeID:
+        type: "string"
+        example: "5505"
+  DestinationNode:
+    type: "object"
+    properties:
+      location:
+        $ref: "#/definitions/Country"
+      nodeID:
+        type: "string"
+        example: "5505"
+      cNodeID:
+        type: "string"
+        example: "ALPHA"
+     
+  Country:
+    type: "object"
+    required: 
+    - countryCode
+    properties:
+      countryCode:
+        type: "string"
+        example: "US"
+  
+  Node:
+    type: "object"
+    properties:
+      nodeId:
+        type: "string"
+        example: "5505"
+      countryCode:
+        type: "string"
+        example: "US"
+  
+  OrderPriority:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example: "1"
+      description:
+        type: "string"
+        example: "Grocery Pickup Default"
+  
+  Type:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example: "6"
+      name:
+        type: "string"
+        example: "GRP"
+  
+  DestinationBusinessUnit:
+    properties:
+      destDivisonNumber:
+        type: "string"
+        example: "1"
+      destBannerName:
+        type: "string"
+        example: "Walmart Grocery"
+ 
+  CrossRef:
+    properties:
+      upc:
+        type: "string"
+        example: "3867526019"
+      itemNbr:
+        type: "string"
+        example: "70045425"
+
+  Line:
+    properties:
+      lineNbr:
+        type: "string"
+        example: "1"
+      upc:
+        type: "string"
+        example: "3867502610"
+      qty:
+        type: "string"
+        example: "1.0"
+      weight:
+        type: "string"
+        example: "0.0"
+      upperThresholdLimit:
+        type: "integer"
+        format: "int32"
+        example: 0
+      lowerThresholdLimit:
+        type: "integer"
+        format: "int32"
+        example: 0
+      pickByType:
+        type: "string"
+        example: "EACH"
+      substitutionAllowed:
+        type: "string"
+        example: "N"
+      itemNbr:
+        type: "string"
+        example: "550490652"
+      uom:
+        type: "string"
+        example: "550490652"
+      crossRefs:
+        $ref: "#/definitions/CrossRef"
+
+  Lines:
+    properties:
+      line:
+        $ref: "#/definitions/Line"
+
+  FulfillmentOrder:
+    type: "object"
+    properties:
+      orderNbr:
+        type: "string"
+        example: "550490652"
+      orderPriority:
+        $ref: "#/definitions/OrderPriority"
+      type:
+         $ref: "#/definitions/Type"
+      destinationBusinessUnit:
+        $ref: "#/definitions/DestinationBusinessUnit"
+      pickDueTime:
+        type: "string"
+        example: "pickDueTime"
+      expectedOrderPickupTime:
+        type: "string"
+        example: "expectedOrderPickupTime"
+      earliestPickTime:
+        type: "string"
+        example: "earliestPickTime"
+      orderSequenceNumber:
+        type: "string"
+        example: "509"
+      loadGroupNumber:
+        type: "string"
+        example: "34"
+      carrierBagAllowed:
+        type: "string"
+        example: "N"
+      recordCarrierBagCount:
+        type: "string"
+        example: "N"
+      lines:
+        $ref: "#/definitions/Lines"
+
+  MessageExtension:
+    properties:
+      name:
+        type: "string"
+        example: "Not available"
+      value:
+        type: "string"
+        example: "Not available"
+
+  Order:
+    type: "object"
+    properties:
+      node:
+        $ref: "#/definitions/Node"
+      fulfillmentOrder:
+        $ref: "#/definitions/FulfillmentOrder"
+      MessageExtensions:
+        $ref: "#/definitions/MessageExtension"
+  
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+        example: "1001"
+      type:
+        type: "string"
+        example: "success"
+      message:
+        type: "string"
+        example: "operation successful."
+  ApiResponseError:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+        example: "500"
+      type:
+        type: "string"
+        example: "Error"
+      message:
+        type: "string"
+        example: "operation failed."
+      
+externalDocs:
+  description: "Find out more about ScopeRetail"
+  url: "https://www.scoperetail.com/"
