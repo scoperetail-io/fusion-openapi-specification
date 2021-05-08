@@ -3,41 +3,34 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.5</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>openapi-specification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>openapi-specification</name>
 	<description>Api contract using Open Api Specification</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.11</java.version>
 		<springfox-version>3.0.0</springfox-version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.7.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<version>2.4.5</version>
 		</dependency>
 
 		<!-- openapi swagger config start -->
@@ -92,15 +85,13 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- openapi generator end -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>
 					<generatedSourcesDirectory>${project.build.directory}/generated-sources</generatedSourcesDirectory>
-					<!-- compile time annotation processing config start -->
 				</configuration>
 			</plugin>
 		</plugins>
