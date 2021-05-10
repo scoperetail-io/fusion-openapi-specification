@@ -70,6 +70,5 @@ workflows:
   build_in_server:
     jobs:
       - build:
-          context: dockerbuildserver # has an env var called MY_ENV_VAR
           
           
