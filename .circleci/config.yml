@@ -40,7 +40,7 @@ jobs:
 #                        echo "No Jira id found for atleast one of the commits"
 #                        exit 1
 #                    fi
-                done <<< "$text"
+#                done <<< "$text"
             fi
 
       # Download and cache dependencies (Test and Sonar Scan)
