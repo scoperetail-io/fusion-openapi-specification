@@ -74,6 +74,8 @@ definitions:
         $ref: "#/definitions/RoutingInfo"
       Order:
         $ref: "#/definitions/Order"
+      MessageExtensions:
+        $ref: "#/definitions/MessageExtension"
 
   RoutingInfo:
     type: "object"
@@ -87,15 +89,16 @@ definitions:
     type: "object"
     properties:
       location:
-        $ref: "#/definitions/Country" 
+        $ref: "#/definitions/CountrySource" 
       nodeID:
         type: "string"
         example: "5505"
+        
   DestinationNode:
     type: "object"
     properties:
       location:
-        $ref: "#/definitions/Country"
+        $ref: "#/definitions/CountryDestination"
       nodeID:
         type: "string"
         example: "5505"
@@ -103,10 +106,18 @@ definitions:
         type: "string"
         example: "ALPHA"
      
-  Country:
+  CountrySource:
     type: "object"
-    required: 
-    - countryCode
+    properties:
+      countryCode:
+        type: "string"
+        example: "US"
+      timezone:
+        type: "string"
+        example: "Pacific Standard Time"
+        
+  CountryDestination:
+    type: "object"
     properties:
       countryCode:
         type: "string"
@@ -116,11 +127,9 @@ definitions:
     type: "object"
     properties:
       nodeId:
-        type: "string"
-        example: "5505"
-      countryCode:
-        type: "string"
-        example: "US"
+        type: "integer"
+        format: "int32"
+        example: 5505
   
   OrderPriority:
     type: "object"
@@ -135,9 +144,6 @@ definitions:
   Type:
     type: "object"
     properties:
-      code:
-        type: "string"
-        example: "6"
       name:
         type: "string"
         example: "GRP"
@@ -151,6 +157,11 @@ definitions:
         type: "string"
         example: "Walmart Grocery"
  
+  CrossRefs:
+    type: array
+    items: 
+      $ref: "#/definitions/CrossRef"
+      
   CrossRef:
     properties:
       upc:
@@ -165,23 +176,17 @@ definitions:
       lineNbr:
         type: "string"
         example: "1"
-      upc:
+      Upc:
         type: "string"
         example: "3867502610"
       qty:
-        type: "string"
-        example: "1.0"
+        type: "integer"
+        format: "int32"
+        example: 1
       weight:
-        type: "string"
-        example: "0.0"
-      upperThresholdLimit:
-        type: "integer"
-        format: "int32"
-        example: 0
-      lowerThresholdLimit:
-        type: "integer"
-        format: "int32"
-        example: 0
+        type: "number"
+        format: "double"
+        example: 0.0
       pickByType:
         type: "string"
         example: "EACH"
@@ -191,29 +196,23 @@ definitions:
       itemNbr:
         type: "string"
         example: "550490652"
-      uom:
-        type: "string"
-        example: "550490652"
       crossRefs:
-        $ref: "#/definitions/CrossRef"
+        $ref: "#/definitions/CrossRefs"
 
   Lines:
-    properties:
-      line:
-        $ref: "#/definitions/Line"
+    type: array
+    items: 
+      $ref: "#/definitions/Line"
 
   FulfillmentOrder:
     type: "object"
     properties:
       orderNbr:
-        type: "string"
-        example: "550490652"
-      orderPriority:
-        $ref: "#/definitions/OrderPriority"
+        type: "integer"
+        format: "int64"
+        example: 550490652
       type:
          $ref: "#/definitions/Type"
-      destinationBusinessUnit:
-        $ref: "#/definitions/DestinationBusinessUnit"
       pickDueTime:
         type: "string"
         example: "pickDueTime"
@@ -237,6 +236,10 @@ definitions:
         example: "N"
       lines:
         $ref: "#/definitions/Lines"
+      orderPriority:
+        $ref: "#/definitions/OrderPriority"
+      destinationBusinessUnit:
+        $ref: "#/definitions/DestinationBusinessUnit"
 
   MessageExtension:
     properties:
@@ -254,8 +257,6 @@ definitions:
         $ref: "#/definitions/Node"
       fulfillmentOrder:
         $ref: "#/definitions/FulfillmentOrder"
-      MessageExtensions:
-        $ref: "#/definitions/MessageExtension"
   
   ApiResponse:
     type: "object"
