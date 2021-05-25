@@ -158,7 +158,12 @@ components:
     CrossRefs:
       type: array
       items:
-        $ref: '#/components/schemas/CrossRef'
+        $ref: '#/components/schemas/CrossRefObj'
+    CrossRefObj:
+      type: object
+      properties:
+        crossRef:
+          $ref: '#/components/schemas/CrossRef'
     CrossRef:
       type: object
       properties:
@@ -168,13 +173,18 @@ components:
         itemNbr:
           type: string
           example: "70045425"
+    LineObj:
+      type: object
+      properties:
+        line:
+          $ref: '#/components/schemas/Line'
     Line:
       type: object
       properties:
         lineNbr:
           type: string
           example: "1"
-        Upc:
+        upc:
           type: string
           example: "3867502610"
         qty:
@@ -199,7 +209,7 @@ components:
     Lines:
       type: array
       items:
-        $ref: '#/components/schemas/Line'
+        $ref: '#/components/schemas/LineObj'
     FulfillmentOrder:
       type: object
       properties:
