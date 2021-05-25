@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>openapi-specification</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<name>openapi-specification</name>
 	<description>Api contract using Open Api Specification</description>
 	<properties>
@@ -23,7 +23,7 @@
 		<developerConnection>
 			scm:git:git@github.com:scoperetail-io/fusion-openapi-specification.git
 		</developerConnection>
-		<tag>HEAD</tag>
+		<tag>openapi-specification-0.5</tag>
 	</scm>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
