@@ -204,6 +204,9 @@ components:
         itemNbr:
           type: string
           example: "550490652"
+        uom:
+          type: string
+          example: "EACH"
         crossRefs:
           $ref: '#/components/schemas/CrossRefs'
     Lines:
