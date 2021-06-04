@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.scoperetail.fusion</groupId>
-	<artifactId>openapi-specification</artifactId>
+	<artifactId>fusion-openapi-specification</artifactId>
 	<version>0.7-SNAPSHOT</version>
-	<name>openapi-specification</name>
+	<name>fusion-openapi-specification</name>
 	<description>Api contract using Open Api Specification</description>
 	<properties>
 		<java.version>11</java.version>
@@ -79,7 +79,7 @@
 						</goals>
 						<configuration>
 							<inputSpec>
-								${project.basedir}/src/main/resources/openapi.yml
+								src/main/resources/openapi.yml
 							</inputSpec>
 							<generatorName>spring</generatorName>
 							<apiPackage>com.scoperetail.fusion.orchestrator.adapter.in.web</apiPackage>
@@ -88,7 +88,7 @@
 								ApiUtil.java
 							</supportingFilesToGenerate>
 							<configOptions>
-								<!-- <basePackage>openapi.src.main.java</basePackage> -->
+							    <basePackage>openapi.src.main.java</basePackage> 
 								<sourceFolder>/src/main/java</sourceFolder>
 								<delegatePattern>true</delegatePattern>
 								<interfaceOnly>false</interfaceOnly>

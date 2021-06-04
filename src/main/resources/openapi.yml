@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Order API
-  description: Order API
+  description: Sample Order API for fusion
   termsOfService: https://www.scoperetail.com/terms.html
   contact:
     email: info@scoperetail.com
@@ -17,7 +17,7 @@ servers:
 - url: http://www.scoperetail.com/fusion/v1
 tags:
 - name: order
-  description: Everything about your orders
+  description: Details about orders 
   externalDocs:
     description: Find out more
     url: http://www.scoperetail.com
@@ -27,14 +27,14 @@ paths:
     post:
       tags:
       - order
-      summary: Process OrderDropEvent
-      operationId: OrderDropEvent
+      summary: Creates the order
+      operationId: orderCreate
       requestBody:
-        description: OrderDropEvent Request JSON payload
+        description: orderCreateRequest Request JSON payload
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderDropEvent'
+              $ref: '#/components/schemas/OrderCreateRequest'
         required: true
       responses:
         202:
@@ -46,225 +46,42 @@ paths:
         400:
           description: Bad Request
           content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        409:
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
         500:
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseError'
-      security:
-      - BasicAuth: []
-      x-codegen-request-body-name: orderDropEventRequest
+      x-codegen-request-body-name: orderCreateRequest
 components:
-  securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
-
   schemas:
-    OrderDropEvent:
+    OrderCreateRequest:
       type: object
       properties:
-        RoutingInfo:
-          $ref: '#/components/schemas/RoutingInfo'
-        Order:
-          $ref: '#/components/schemas/Order'
-        MessageExtensions:
-          $ref: '#/components/schemas/MessageExtension'
-    RoutingInfo:
-      type: object
-      properties:
-        SourceNode:
-          $ref: '#/components/schemas/SourceNode'
-        DestinationNode:
-          $ref: '#/components/schemas/DestinationNode'
-    SourceNode:
-      type: object
-      properties:
-        location:
-          $ref: '#/components/schemas/CountrySource'
-        nodeID:
+        requestId:
           type: string
-          example: "5505"
-    DestinationNode:
-      type: object
-      properties:
-        location:
-          $ref: '#/components/schemas/CountryDestination'
-        nodeID:
+          example: "uuid"
+        orderType:
           type: string
-          example: "5505"
-        cNodeID:
-          type: string
-          example: ALPHA
-    CountrySource:
-      type: object
-      properties:
-        countryCode:
-          type: string
-          example: US
-        timezone:
-          type: string
-          example: Pacific Standard Time
-    CountryDestination:
-      type: object
-      properties:
-        countryCode:
-          type: string
-          example: US
-    Node:
-      type: object
-      properties:
-        nodeId:
+          example: "Regular"
+        customerId:
           type: integer
-          format: int32
-          example: 5505
-        countryCode:
-          type: string
-          example: US          
-    OrderPriority:
-      type: object
-      properties:
-        code:
-          type: string
-          example: "1"
-        description:
-          type: string
-          example: Grocery Pickup Default
-    Type:
-      type: object
-      properties:
-        name:
-          type: string
-          example: GRP
-    DestinationBusinessUnit:
-      type: object
-      properties:
-        destDivisonNumber:
-          type: string
-          example: "1"
-        destBannerName:
-          type: string
-          example: Walmart Grocery
-    CrossRefs:
-      type: array
-      items:
-        $ref: '#/components/schemas/CrossRefObj'
-    CrossRefObj:
-      type: object
-      properties:
-        crossRef:
-          $ref: '#/components/schemas/CrossRef'
-    CrossRef:
-      type: object
-      properties:
-        upc:
-          type: string
-          example: "3867526019"
-        itemNbr:
-          type: string
-          example: "70045425"
-    LineObj:
-      type: object
-      properties:
-        line:
-          $ref: '#/components/schemas/Line'
-    Line:
-      type: object
-      properties:
-        lineNbr:
-          type: string
-          example: "1"
-        upc:
-          type: string
-          example: "3867502610"
-        qty:
-          type: integer
-          format: int32
           example: 1
-        weight:
-          type: number
-          format: double
-          example: 0.0
-        pickByType:
-          type: string
-          example: EACH
-        substitutionAllowed:
-          type: string
-          example: N
-        itemNbr:
-          type: string
-          example: "550490652"
-        uom:
-          type: string
-          example: "EACH"
-        crossRefs:
-          $ref: '#/components/schemas/CrossRefs'
+        lines:
+          $ref: '#/components/schemas/Lines'
     Lines:
       type: array
       items:
-        $ref: '#/components/schemas/LineObj'
-    FulfillmentOrder:
-      type: object
-      properties:
-        orderNbr:
+        $ref: '#/components/schemas/Line'
+    Line:
+       type: object 
+       properties:
+        productId:
           type: integer
-          format: int64
-          example: 550490652
-        type:
-          $ref: '#/components/schemas/Type'
-        pickDueTime:
-          type: string
-          example: pickDueTime
-        expectedOrderPickupTime:
-          type: string
-          example: expectedOrderPickupTime
-        earliestPickTime:
-          type: string
-          example: earliestPickTime
-        orderSequenceNumber:
-          type: string
-          example: "509"
-        loadGroupNumber:
-          type: string
-          example: "34"
-        carrierBagAllowed:
-          type: string
-          example: N
-        recordCarrierBagCount:
-          type: string
-          example: N
-        lines:
-          $ref: '#/components/schemas/Lines'
-        orderPriority:
-          $ref: '#/components/schemas/OrderPriority'
-        destinationBusinessUnit:
-          $ref: '#/components/schemas/DestinationBusinessUnit'
-    MessageExtension:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Not available
-        value:
-          type: string
-          example: Not available
-    Order:
-      type: object
-      properties:
-        node:
-          $ref: '#/components/schemas/Node'
-        fulfillmentOrder:
-          $ref: '#/components/schemas/FulfillmentOrder'
+          example: 1  
+        quantity:
+          type: integer
+          example: 1            
     ApiResponse:
       type: object
       properties:
