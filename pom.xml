@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>fusion-openapi-specification</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<url>https://github.com/scoperetail-io/${project.artifactId}</url>
 	<description>Api contract using Open Api Specification</description>
@@ -27,7 +27,7 @@
 		<developerConnection>
             scm:git:git@github.com:scoperetail-io/${project.artifactId}.git
         </developerConnection>
-		<tag>fusion-openapi-specification-0.1</tag>
+		<tag>HEAD</tag>
 		<url>https://github.com/scoperetail-io/${project.artifactId}</url>
 	</scm>
 
